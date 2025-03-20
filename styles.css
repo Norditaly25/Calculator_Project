@@ -1,7 +1,35 @@
+.Calculator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.calculator-display {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 600px;
+    height: 122px;padding-right: 20px;
+    box-sizing: border-box;
+    font-size: 50px;
+    background-color: navy;
+}
+
 .calculator-btns {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    
+    text-align: center;
+    width: 600px;
+    height: 600px;
+
+}
+
+.number, .clear, .equals, .operator {
+    height: 150px;
+    width: 150px;
+    font-size: 50px;
 }
