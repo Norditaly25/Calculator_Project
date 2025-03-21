@@ -26,21 +26,47 @@ const display = document.querySelector(".calculator-display");
 const numbers = document.querySelectorAll(".number");
 const operators = document.querySelectorAll(".operator");
 const equals = document.querySelector(".equals");
+const clear = document.querySelector(".clear");
+const backspace = document.querySelector(".backspace");
+const decimal = document.querySelector(".decimal");
 
 numbers.forEach(number => {
     number.addEventListener("click", () => {
         const digit = number.textContent;
+
+        if (shouldClearDisplay === true) {
+            display.textContent = "";
+            n1 = ""; 
+            operator = "";
+            n2 = "";
+            shouldClearDisplay = false;
+        }
         display.textContent += digit;
         operator === "" ? n1 += digit : n2 += digit;
         });
     });
+
+decimal.addEventListener("click", () => {
+    if (operator === "") {
+        if (!n1.includes(".")) {
+            display.textContent += ".";
+            n1 += ".";
+        }
+    } else {
+        if (!n2.includes(".")) {
+            display.textContent += ".";
+            n2 += ".";
+        }
+    }
+});
 
     operators.forEach(opBtn => {
         opBtn.addEventListener("click", () => {
         const selectedOperator = opBtn.textContent;
 
         if (operator !== "" && n2 !== "") {
-            const result = operate(Number(n1), operator, Number(n2));
+            let result = operate(Number(n1), operator, Number(n2));
+            result = Math.round(result*100) / 100;
             display.textContent = result + selectedOperator;
             n1 = result.toString();
             operator = selectedOperator;
@@ -56,7 +82,33 @@ numbers.forEach(number => {
     });
 
 equals.addEventListener("click", () => {
-    
+    if (n1 !== "" && operator !== "" && n2 !== "") {
+        let result = operate(Number(n1), operator, Number(n2));
+        result = Math.round(result*100) / 100;
+        shouldClearDisplay = true;
+        display.textContent = result;
+        }
     }
 )
 
+clear.addEventListener("click", () => {
+    display.textContent = "";
+    n1 = ""; 
+    operator = "";
+    n2 = "";
+    shouldClearDisplay = false;
+})
+
+backspace.addEventListener("click", () => {
+    if (display.textContent === "") return;
+
+    display.textContent = display.textContent.slice(0, -1);
+
+    if (operator === "") {
+        n1 = n1.slice(0, -1);
+    } else if (n2 === "") {
+        operator = "";
+    } else {
+        n2 = n2.slice(0, -1);
+    }
+});
